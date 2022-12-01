@@ -1,0 +1,84 @@
+<!-- Object books, categories -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> BK Books - Tri thức xanh </title>
+
+  <!--
+    - favicon
+  -->
+  <link rel="shortcut icon" href="/images/logo/favicon.ico" type="image/x-icon">
+
+  <!--
+    - custom css link
+  -->
+  <link rel="stylesheet" href="/css/style-prefix.css">
+
+  <!--
+    - google font link
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+  <div class="overlay" data-overlay></div>
+
+
+  <% /* %>
+  <!-- Modal -->
+  
+
+  <% */ %>
+  <%- include('./elements/homeModal') %>
+  <!-- NOTIFICATION TOAST -->
+  <%- include('./elements/notificationToast') %>
+
+  <!-- Header -->
+  <%- include('./elements/header') %>
+
+  <main>
+    <!-- Baner -->
+    <%- include('./elements/banner') %>
+    <div class="product-container">
+      <div class="container">
+
+        <%- include('./elements/categorySidebar', {categories: categories}) %>
+
+        <div class="product-box">
+          <% /* %>
+          <%- include('./elements/productFeatured') %>
+          <% */ %>
+          <%- include('./elements/productMain', {books: books, title: "Tất cả sách"}) %>
+        </div>
+      </div>
+    </div>
+
+    <% /* %>
+    <%- include('./elements/testimonial') %>
+    <%- include('./elements/blog') %>
+    <% */ %>
+
+  </main>
+  <%- include('./elements/footer') %>
+  <!--
+    - custom js link
+  -->
+  <script src="/js/script.js"></script>
+
+  <!--
+    - ionicon link
+  -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+</body>
+
+</html>

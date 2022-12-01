@@ -1,0 +1,13 @@
+<div class="product-main">
+
+  <h2 class="title"><%= title %> </h2>
+
+  <div class="product-grid">
+
+    <% for( let i = 0; i < books.length; i++ ) { %>
+        <%- include  ('./product', {book: books[i]}) %>
+    <% } %>
+
+  </div>
+
+</div>
