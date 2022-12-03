@@ -45,7 +45,28 @@
                     <a href="#" class="menu-title">Trang chủ</a>
                 </li>
 
-                <li class="menu-category">
+                <% for( let i=0; i < categories.length; i++ ) { %>
+                    <li class="menu-category">
+                        <a href="#" class="menu-title"><%= categories[i].name %></a>
+    
+                        <ul class="dropdown-list">
+                            <% for( let j=0; j < categories[i].specificCategories.length; j++ ) { %>
+                                <li class="dropdown-item">
+                                    <a href="/home/<%=categories[i].name%>/<%=categories[i].specificCategories[j].id%>">
+                                        <%= categories[i].specificCategories[j].name %>
+                                    </a>
+                                </li>
+                            <% } %>
+                            <li class="dropdown-item">
+                                <a href="/home/<%=categories[i].name%>">
+                                    Xem tất cả
+                                </a>
+                            </li>
+                        </ul>
+
+                    </li>
+                <% } %>
+                <!-- <li class="menu-category">
                     <a href="#" class="menu-title">Văn học</a>
 
                     <ul class="dropdown-list">
@@ -147,7 +168,7 @@
 
                 <li class="menu-category">
                     <a href="#" class="menu-title">Sách ngoại ngữ</a>
-                </li>
+                </li> -->
 
             </ul>
 
