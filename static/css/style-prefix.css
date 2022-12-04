@@ -101,7 +101,8 @@ img, ion-icon, button, a { display: block; }
 span { display: inline-block; }
 
 html {
-  font-family: "Poppins", sans-serif;
+  /* font-family: "Poppins", sans-serif; */
+  font-family: 'Noto Sans', sans-serif;
   -ms-scroll-chaining: none;
       overscroll-behavior: contain;
 }
@@ -183,6 +184,9 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0, 0%, 70%); }
   margin-bottom: 30px;
 }
 
+.hidden {
+  display: none !important;
+}
 
 
 
@@ -1094,7 +1098,7 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0, 0%, 70%); }
   border-top: 1px solid var(--cultured);
   max-height: 0;
   overflow: hidden;
-  visibility: hidden;
+  visibility: visible;
   -webkit-transition: 0.5s ease-in-out;
   -o-transition: 0.5s ease-in-out;
   transition: 0.5s ease-in-out;
@@ -2758,6 +2762,17 @@ footer {
   }
 
   .desktop-menu-category-list .menu-category > .menu-title:hover::after { -webkit-transform: scaleX(1); -ms-transform: scaleX(1); transform: scaleX(1); }
+
+  .desktop-menu-category-list .menu-category .menu-link {
+    color: black;
+    text-decoration: none;
+  }
+
+  .desktop-menu-category-list .menu-category .menu-link:hover {
+      color:black; 
+      text-decoration:none; 
+      cursor:pointer;  
+  }
 
   .dropdown-panel {
     position: absolute;

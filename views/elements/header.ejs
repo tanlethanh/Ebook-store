@@ -47,7 +47,7 @@
 
                 <% for( let i=0; i < categories.length; i++ ) { %>
                     <li class="menu-category">
-                        <a href="#" class="menu-title"><%= categories[i].name %></a>
+                        <a href="/home/<%=categories[i].name%>" class="menu-title"><%= categories[i].name %></a>
     
                         <ul class="dropdown-list">
                             <% for( let j=0; j < categories[i].specificCategories.length; j++ ) { %>
@@ -57,11 +57,11 @@
                                     </a>
                                 </li>
                             <% } %>
-                            <li class="dropdown-item">
+                            <!-- <li class="dropdown-item">
                                 <a href="/home/<%=categories[i].name%>">
                                     Xem tất cả
                                 </a>
-                            </li>
+                            </li> -->
                         </ul>
 
                     </li>

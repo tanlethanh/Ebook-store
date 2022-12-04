@@ -18,19 +18,23 @@
                 <li class="sidebar-menu-category">
                     <button class="sidebar-accordion-menu" data-accordion-btn>
                         <div class="menu-title-flex">
-                            <p class="menu-title">
-                                <%= categories[i].name %>
-                            </p>
+                            <a class="menu-link" href="/home/<%=categories[i].name%>">
+                                <p class="menu-title">
+                                    <%= categories[i].name %>
+                                </p>
+                            </a>
                         </div>
-                        <div>
+                        <!-- <div>
                             <ion-icon name="add-outline" class="add-icon"></ion-icon>
                             <ion-icon name="remove-outline" class="remove-icon"></ion-icon>
-                        </div>
+                        </div> -->
                     </button>
 
-                    <ul class="sidebar-submenu-category-list" data-accordion>
+                    <ul class="sidebar-submenu-category-list active" data-accordion>
+                        <!-- categories[i].specificCategories.length -->
                         <% for( let j=0; j < categories[i].specificCategories.length; j++ ) { %>
-                            <li class="sidebar-submenu-category" id="<%= categories[i].specificCategories[j].id %> ">
+                            <li class="sidebar-submenu-category"
+                                id="<%= categories[i].specificCategories[j].id %>">
                                 <a href="/home/<%=categories[i].name%>/<%=categories[i].specificCategories[j].id%>"
                                     class="sidebar-submenu-title">
                                     <p class="product-name">
@@ -43,11 +47,9 @@
                             </li>
                         <% } %>
                         <li class="sidebar-submenu-category" id="<%= categories[i].name %>">
-                            <a class="sidebar-submenu-title" href="/home/<%=categories[i].name%>">
-                                <p class="product-name">
-                                    Xem tất cả
-                                </p>
-                            </a>
+                            <button class="sidebar-submenu-title expand-submenu-btn">
+                                (Xem tất cả)
+                            </button>
                         </li>
                     </ul>
 
