@@ -1,0 +1,36 @@
+<% if (book.name.length > 40) { %>
+    <% bookName = book.name.substr(0, 40) + "..." %>
+<% } else { %>
+    <% bookName = book.name %>
+<% } %>
+
+
+<div class="item" id="<%- book.id %>" value="<%- book.quantity %>">
+    <div class="checkbox">
+      <input type="checkbox" id="1" name="item" value="item" class="bagInput">
+    </div>
+
+    <div class="image">
+      <img src="<%= book.main_image_url %>" alt="" />
+    </div>
+
+    <div class="description">
+      <span><%= bookName %></span>
+    </div>
+
+    <div class="quantity">
+      <button class="plus-btn" type="button" name="button">
+        <img src="/icons/plus.svg" alt="" />
+      </button>
+      <input type="text" name="name" value="1">
+      <button class="minus-btn" type="button" name="button">
+        <img src="/icons/minus.svg" alt="" />
+      </button>
+    </div>
+
+    <div class="total-price"><%= book.price %>đ</div>
+
+    <div class="buttons">
+      <span class="delete-btn"></span>
+    </div>
+  </div>

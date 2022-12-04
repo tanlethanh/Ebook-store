@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const homeRoute = require('./routes/home')
+const bagRoute = require('./routes/bag')
 const database = require('./models/connection')
 
 require('dotenv').config()
@@ -12,7 +13,7 @@ database.connect()
 
 app.use('/', homeRoute)
 
-
+app.use('/',bagRoute)
 
 const PORT = 3000 || process.env.SERVER_PORT
 app.listen(PORT, (error) => {
