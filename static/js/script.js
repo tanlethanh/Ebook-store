@@ -61,28 +61,51 @@ for (let i = 0; i < mobileMenuOpenBtn.length; i++) {
 const accordionBtn = document.querySelectorAll('[data-accordion-btn]');
 const accordion = document.querySelectorAll('[data-accordion]');
 
-for (let i = 0; i < accordionBtn.length; i++) {
+// for (let i = 0; i < accordionBtn.length; i++) {
 
-  accordionBtn[i].addEventListener('click', function () {
+//   accordionBtn[i].addEventListener('click', function () {
 
-    const clickedBtn = this.nextElementSibling.classList.contains('active');
+//     const clickedBtn = this.nextElementSibling.classList.contains('active');
 
-    for (let i = 0; i < accordion.length; i++) {
+//     for (let i = 0; i < accordion.length; i++) {
 
-      if (clickedBtn) break;
+//       if (clickedBtn) break;
 
-      if (accordion[i].classList.contains('active')) {
+//       if (accordion[i].classList.contains('active')) {
 
-        accordion[i].classList.remove('active');
-        accordionBtn[i].classList.remove('active');
+//         accordion[i].classList.remove('active');
+//         accordionBtn[i].classList.remove('active');
 
-      }
+//       }
 
+//     }
+
+    
+//   });
+  
+//   this.nextElementSibling.classList.toggle('active');
+//   this.classList.toggle('active');
+// }
+
+const expandSubmenuBtns = document.querySelectorAll('.expand-submenu-btn');
+const sidebarSubmenuCategoryList = document.querySelectorAll('.sidebar-submenu-category-list');
+
+for (let i = 0; i < expandSubmenuBtns.length; i++)
+{
+  const NUM_OF_VISIBLE_MENU = 2;
+  const sidebarSubmenuCategories = sidebarSubmenuCategoryList[i].querySelectorAll('.sidebar-submenu-category');
+  // 4 sidebar-submenu-category when sidebar-submenu is not expanded
+  for (let j = NUM_OF_VISIBLE_MENU; j < sidebarSubmenuCategories.length - 1; j++)
+  {
+    sidebarSubmenuCategories[j].classList.add('hidden');
+  }
+
+  expandSubmenuBtns[i].addEventListener('click', () => {
+    expandSubmenuBtns[i].style.display = 'none';
+
+    for (let j = NUM_OF_VISIBLE_MENU; j < sidebarSubmenuCategories.length - 1; j++)
+    {
+      sidebarSubmenuCategories[j].classList.remove('hidden');
     }
-
-    this.nextElementSibling.classList.toggle('active');
-    this.classList.toggle('active');
-
-  });
-
+  })
 }

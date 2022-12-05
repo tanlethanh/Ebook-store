@@ -14,16 +14,18 @@ exports.getAllCategories = () => {
                 results.forEach(ele => {
                     const new_obj = {
                         name: ele.spec_category,
-                        id: ele.spec_id,
+                        id: ele.specific_category_id,
                         numBooks: ele.num_books
                     }
-                    if (!cate_dict[ele.root_category]) {
+                    if (!cate_dict[ele.root_category])
+                    {
                         cate_dict[ele.root_category] = {
                             name: ele.root_category,
                             specificCategories: [new_obj]
                         }
                     }
-                    else {
+                    else
+                    {
                         cate_dict[ele.root_category].specificCategories.push(new_obj)
                     }
                 });
@@ -35,11 +37,53 @@ exports.getAllCategories = () => {
 exports.getAllBooks = () => {
     return new Promise((resolve, reject) => {
         database.query('SELECT * FROM BOOKS', function (error, results, fields) {
-            if (error) {
+            if (error)
+            {
                 reject(error)
             }
             resolve(results)
         });
     })
 
+}
+
+exports.getBooksBySpecCategoryId = (id) => {
+    return new Promise((resolve, reject) => {
+        database.query(`SELECT * FROM BOOKS WHERE specific_category_id='${id}'`, function (error, results, fields) {
+            if (error)
+            {
+                reject(error)
+            }
+            resolve(results)
+        });
+    });
+}
+
+exports.getSpecCategoryNameById = (id) => {
+    return new Promise((resolve, reject) => {
+        database.query(`SELECT * FROM SpecificCategories WHERE id='${id}'`, function (error, results, fields) {
+            if (error)
+            {
+                reject(error)
+            }
+            resolve(results)
+        });
+    });
+}
+
+exports.getBooksByCategoryName = (name) => {
+    return new Promise((resolve, reject) => {
+        database.query(`
+            SELECT * FROM 
+            Books as b, Categories as c 
+            WHERE b.category_id = c.id and c.name='${name}'`,
+            function (error, results, fields) {
+                if (error)
+                {
+                    reject(error)
+                }
+                resolve(results)
+            }
+        );
+    });
 }
