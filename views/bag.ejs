@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Shopping Cart</title>
+    <link rel="shortcut icon" href="/images/logo/favicon.ico" type="image/x-icon">
+   
+    <link rel="stylesheet" href="/css/style-prefix.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="/css/bagstyle.css" media="screen" title="no title" charset="utf-8">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-2.2.4.js" charset="utf-8"></script>
+    <meta name="robots" content="noindex,follow" />
+  </head>
+  <body>
+    <%- include('./elements/header') %>
+
+    <span id="giohang">Giỏ Hàng</span> <img id ="cartsvg" src="/icons/cart.svg" alt="" />
+    <div id="content">
+      <div id="headerAnhCart">
+        <div id="headerCart">
+          <div class="allCheckBox">
+            <input type="checkbox" id="headerCheckBox" name="item" value="item" class="bagInput">
+          </div>
+          <div id="allChooseText">
+            <span>Chọn tất cả (</span>
+            <span id="num-items-checkbox">3</span> sản phẩm)
+          </div>
+
+          <div id="soluong">Số lượng</div>
+          <div id="thanhtien">Thành tiền</div>
+
+        </div>
+      <div class="shopping-cart">
+
+      <!-- Product #1 -->
+      <% for( let i = 0; i < books.length; i++ ) { %>
+        <%- include  ('./elements/item', {book: books[i]}) %>
+    <% } %>
+      <!-- Product #2 -->
+      <!-- Product #3 -->
+    </div>
+  </div>
+
+    <div id="voucherAndPay">
+      <div id="voucher-box">
+        <div class="title">
+        Voucher
+        </div>
+      
+      <div class="content">
+        <div class="voucher-item">
+        <div class="nameAndApply">
+        <div class="voucher-name">DISCOUNT 50K</div>
+        <div class="apply">Áp dụng</div>
+        </div>
+        <div class="voucher-disc">Với mỗi đơn hàng trên 300K, cơ hội trúng 30 triệu, Macbook, Vàng, 1 triệu Fpoint và khoá học Galaxy</div>
+    </div>
+
+      <div class="voucher-item">
+        <div class="nameAndApply">
+        <div class="voucher-name">DISCOUNT 50K</div>
+        <div class="apply">Áp dụng</div>
+        </div>
+        <div class="voucher-disc">Với mỗi đơn hàng trên 300K, cơ hội trúng 30 triệu, Macbook, Vàng, 1 triệu Fpoint và khoá học Galaxy</div>
+    </div>
+      </div>
+      </div>
+    <div id="payment-box">
+      <div id="total_cart_page">
+        <div class="title">
+          Payment
+        </div>
+        <div id="number_total_price">
+          <span><span id="total_price">0</span><span> đ</span></span>
+        </div>
+      </div>
+      
+      <button id = "paybutton">Thanh toán</button>
+    </div>
+  </div>
+
+
+    <script type="text/javascript">
+      $('.minus-btn').on('click', function(e) {
+    		e.preventDefault();
+    		var $this = $(this);
+    		var $input = $this.closest('div').find('input');
+    		var value = parseInt($input.val());
+
+    		if (value > 1) {
+    			value = value - 1;
+    		} else {
+    			value = 0;
+    		}
+
+        $input.val(value);
+
+    	});
+
+    	$('.plus-btn').on('click', function(e) {
+    		e.preventDefault();
+    		var $this = $(this);
+    		var $input = $this.closest('div').find('input');
+    		var value = parseInt($input.val());
+    		if (value < parseInt($this.parent().parent().attr('value'))) {
+      		value = value + 1;
+    		} else {
+    			value =parseInt($this.parent().parent().attr('value'));
+    		}
+
+    		$input.val(value);
+    	});
+
+      $('.like-btn').on('click', function() {
+        $(this).toggleClass('is-active');
+      });
+    </script>
+    <script src="/js/script.js"></script>
+    <script src="/js/bagscript.js"></script>
+    </div>
+    <%- include('./elements/footer') %>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>
