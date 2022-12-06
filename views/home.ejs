@@ -54,9 +54,9 @@
 
         <div class="product-box">
           <% /* %>
-          <%- include('./elements/productFeatured') %>
           <% */ %>
-          <%- include('./elements/productMain', {books: books, title: locals.title ?? "Tất cả sách"}) %>
+          <%- include('./elements/productFeatured') %>
+          <%- include('./elements/productMain', {books: books, title: "Tất cả sách"}) %>
         </div>
       </div>
     </div>
