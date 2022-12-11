@@ -1,3 +1,5 @@
+<!-- cartItems, categories -->
+
 <!DOCTYPE html>
 <html>
 
@@ -39,8 +41,8 @@
                 <div class="shopping-cart">
 
                     <!-- Product #1 -->
-                    <% for( let i=0; i < books.length; i++ ) { %>
-                        <%- include ('./elements/item', {book: books[i]}) %>
+                    <% for( let i=0; i < cartItems.length; i++ ) { %>
+                        <%- include ('./elements/cartItem', {cartItem: cartItems[i]}) %>
                             <% } %>
                                 <!-- Product #2 -->
                                 <!-- Product #3 -->

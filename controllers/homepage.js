@@ -3,7 +3,8 @@ const {
     getAllCategories,
     getBooksBySpecCategoryId,
     getSpecCategoryNameById,
-    getBooksByCategoryName
+    getBooksByCategoryName,
+    getCartItemsByCartId
 } = require('../models/books')
 
 exports.renderHomepage = async(req, res) => {
@@ -33,9 +34,10 @@ exports.renderHomeWithFilter = async(req, res) => {
 
 
 exports.renderCart = async(req, res) => {
-    const books = await getAllBooks()
+    console.log('Render cart page')
     const categories = await getAllCategories()
-
-    res.render('cart', { books: books, categories: categories })
+    const cartItems = await getCartItemsByCartId(String(req.params.cartId))
+    console.log("done render cart")
+    res.render('cart', { categories: categories, cartItems: cartItems })
 
 }
