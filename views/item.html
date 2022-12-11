@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        /* edit add item */
+        .item-top {
+            display: flex;
+            height: 50px;
+            width: 100%;
+            align-items: center;
+        }
+
+        .item_add_background {
+            top: 0;
+            left: 0;
+            z-index: 10;
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            background-color: rgba(200, 200, 200, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .item_add_container {
+            position: absolute;
+            min-width: 800px;
+            min-height: 550px;
+            border-radius: 12px;
+            background-color: white;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            display: flex;
+            flex-direction: column;
+            padding: 10px 0 20px;
+            animation: fadeIn .6s, slideIn .6s linear;
+        }
+
+        @keyframes slideIn {
+            0% {
+                transform: translateY(400px);
+                animation-timing-function: ease-out;
+            }
+
+            60% {
+                transform: translateY(-30px);
+                animation-timing-function: ease-in;
+            }
+
+            80% {
+                transform: translateY(10px);
+                animation-timing-function: ease-out;
+            }
+
+            100% {
+                transform: translateY(0px);
+                animation-timing-function: ease-in;
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .item_add_container .item_add_title {
+            display: flex;
+            flex-wrap: wrap;
+            text-align: center;
+            margin-bottom: 10px;
+            flex-direction: column;
+            font-size: 30px;
+            color: #48578E;
+        }
+
+        .titleCloseBtn {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .titleCloseBtn button {
+            border: none;
+            background-color: transparent;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-right: 20px;
+        }
+
+        .item_add_container .item_add_body {
+            font-size: 1.2rem;
+            position: relative;
+            height: 400px;
+        }
+
+        .item_add_body_left {
+            position: absolute;
+            right: 50%;
+            width: 50%;
+            height: 100%;
+            padding-left: 40px;
+            padding-right: 20px;
+
+        }
+
+        .item_add_body_right {
+            position: absolute;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+
+            display: flex;
+            flex-direction: column;
+            /* justify-content: center; */
+            align-items: center;
+        }
+
+        .item_add_container .item_add_footer {
+            flex: 20%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .item_add_container .item_add_footer button {
+            width: 150px;
+            height: 45px;
+            margin: 10px;
+            border: none;
+            background-color: #48578E;
+            color: white;
+            border-radius: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .upload__image-wrapper .upload_clickdrop {
+            margin-top: 20px;
+            height: 300px;
+            width: 300px;
+            /* background-color: ; */
+            border: solid 1px #48578E;
+            border-radius: 20px;
+
+        }
+
+        .image-item__btn-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+
+        .image-item__btn-wrapper button {
+            height: 30px;
+            width: 80px;
+            font-size: 0.8em;
+            margin-left: 20px;
+            border-radius: 20px;
+            border: solid 1px #000;
+            background-color: #fff;
+            /* color: #48578E; */
+            cursor: pointer;
+        }
+
+        .label_body {
+            font-size: 18px;
+            margin-top: 5px;
+        }
+
+        .input_body {
+            height: 35px;
+            width: 100%;
+            border-radius: 5px;
+            background: #f2f2f2;
+            border: 2px solid #F8F8F8;
+            box-shadow: inset 0px 5px 6px rgba(0, 0, 0, 0.1);
+            font-size: 18px;
+            padding-left: 5px;
+            margin-top: 5px;
+        }
+
+        .input_des {
+            height: 100px !important;
+        }
+
+        .add_item_confirm {
+            color: red !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="item_add_background">
+        <div class="item_add_container">
+            <div class="titleCloseBtn"><button>X</button></div>
+            <h1 class="item_add_title">Add new item</h1>
+            <div class="item_add_body">
+                <div class="item_add_body_left"><label class="label_body">Name of item</label><input class="input_body"
+                        type="text"><label class="label_body">Quantity</label>
+                    <p class="signup_input_invalid">Quantity must be a positive number.</p><input class="input_body"
+                        type="number"><label class="label_body">Category</label><select class="input_body" name="e">
+                        <option value="Dụng cụ">Dụng cụ</option>
+                        <option value="Thiết bị điện">Thiết bị điện</option>
+                        <option value="Phòng học">Phòng học</option>
+                        <option value="Đồ sự kiện">Đồ sự kiện</option>
+                        <option value="Trang phục">Trang phục</option>
+                        <option value="Đồ dùng văn phòng">Đồ dùng văn phòng</option>
+                    </select><label class="label_body">Description</label><textarea
+                        class="input_body input_des"></textarea>
+                </div>
+                <div class="item_add_body_right"><label class="label_body">Image</label><input type="file"
+                        accept="image/*" style="display: none;">
+                    <div class="upload__image-wrapper"><button class="upload_clickdrop false">Click or Drop
+                            here</button>&nbsp;</div>
+                </div>
+            </div>
+            <div class="item_add_footer"><button class="button" type="submit">Add now!</button></div>
+        </div>
+    </div>
+</body>
+
+</html>

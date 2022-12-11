@@ -201,3 +201,33 @@ alter table Comments
     add constraint comments_comments_fk
         foreign key (root_comment_id) references Comments (id)
             on delete cascade on update cascade;
+
+
+use ebook_store;
+
+
+create table Carts 
+(
+    id varchar(36) default(uuid()) primary key,
+    user_id varchar(36),
+    Foreign Key (user_id) REFERENCES Users(id)
+);
+
+create table CartItems (
+    cart_id varchar(36),
+    book_id  varchar(36),
+    quantity int   not null,
+    state   enum('RELEASED', 'NOW') default('NOW'),
+    constraint cartitems_carts_fk foreign key (cart_id) references Carts (id)
+        on delete cascade
+        on update cascade,
+    constraint cartitems_books_fk foreign key (book_id) references Books (id)
+        on delete cascade # disable item or change quantity of book to 0
+        on update cascade,
+    primary key (cart_id, book_id)
+);
+
+
+alter table users
+    add column cart_id varchar(36),
+    add FOREIGN key (cart_id) REFERENCES carts(id);
