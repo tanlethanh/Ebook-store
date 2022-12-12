@@ -1,3 +1,4 @@
+-- Active: 1670753632697@@127.0.0.1@3306@ebook_store
 insert into carts (id)
 VALUES (
         '9b0d2f5c-7924-11ed-83a1-b445062d2ff3'
@@ -12,7 +13,6 @@ insert into
         name,
         email,
         phone_number,
-        cart_id
     )
 VALUES (
         'f58d2683-7921-11ed-83a1-b445062d2ff3',

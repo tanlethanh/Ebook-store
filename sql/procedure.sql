@@ -1,6 +1,4 @@
--- Active: 1669863277815@@127.0.0.1@3306@ebook_store
-
-drop PROCEDURE temp1;
+-- Active: 1670753632697@@127.0.0.1@3306@ebook_store
 
 /* Check valid action ADD BOOK TO CART */
 DROP TRIGGER IF EXISTS before_insert_cart_item;
@@ -38,7 +36,7 @@ END;
 --------------+
 
 
-DROP FUNCTION caculate_total_price;
+-- DROP FUNCTION caculate_total_price;
 CREATE FUNCTION caculate_total_price(discount float, price int) RETURNS FLOAT
 DETERMINISTIC
 BEGIN

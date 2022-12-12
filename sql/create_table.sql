@@ -228,9 +228,3 @@ add
     column cart_id varchar(36),
 add
     FOREIGN key (cart_id) REFERENCES carts(id);
-
-alter table users
-add
-    column cart_id varchar(36),
-add
-    FOREIGN key (cart_id) REFERENCES carts(id);

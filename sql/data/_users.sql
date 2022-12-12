@@ -2,7 +2,7 @@
 
 use ebook_store;
 
-drop PROCEDURE INSERT_USER_WITH_CART;
+drop PROCEDURE IF EXISTS INSERT_USER_WITH_CART;
 
 CREATE PROCEDURE INSERT_USER_WITH_CART(IN _USERNAME 
 VARCHAR(255), IN _PASSWORD VARCHAR(255), IN _ROLE 
@@ -19,7 +19,7 @@ ENUM('ADMIN', 'CUSTOMER', 'MANAGER'), IN _NAME VARCHAR
 	    message_text = 'Tên tài khoản đã tồn tại';
 	END IF;
 	Select count(*) into count_user from users WHERE email = _email;
-	IF @count_user <> 0 THEN Signal sqlstate '45000'
+	IF count_user <> 0 THEN Signal sqlstate '45000'
 	SET
 	    message_text = 'Tài khoản này có email đã tồn tại';
 	END IF;
@@ -40,12 +40,7 @@ ENUM('ADMIN', 'CUSTOMER', 'MANAGER'), IN _NAME VARCHAR
 	set
 	    message_text = "Số điện thoại không hợp lệ";
 	end if;
-	if(
-	    regexp_like(
-	        _email,
-	        '^[^@]+@[^@]+\.[^@]{2,}$'
-	    ) = 0
-	) then signal sqlstate '45000'
+	if(_email NOT LIKE '%_@__%.__%') then signal sqlstate '45000'
 	set
 	    message_text = "Email không hợp lệ";
 	end if;
