@@ -62,7 +62,9 @@ module.exports = router.post('/book/:action', async (req, res) => {
             result = await deleteBookById(String(req.body.id))
             res.json({
                 'type': 'success',
-                'message': 'Delete successfully!'
+                'message': (result === 'success') ?
+                    'Xoá sách thành công!' :
+                    'Không thể xoá sách do đơn sách đã được khởi tạo/ chấp nhận thanh toán/ vận chuyển!'
             })
         }
         if (action === 'create')

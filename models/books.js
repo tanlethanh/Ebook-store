@@ -1,3 +1,4 @@
+const e = require('express')
 const database = require('./connection')
 
 exports.getAllCategories = () => {
@@ -161,13 +162,27 @@ exports.insertBook = (name, price, discount, quantity, img, sc) => {
 exports.deleteBookById = (id) => {
     return new Promise((resolve, reject) => {
         database.query(`
-            DELETE FROM Books WHERE id='${id}'`,
+        DELETE FROM Books WHERE id='${id}'
+        AND id NOT IN 
+            (SELECT ob.book_id 
+            FROM OrderBooks AS ob, Orders AS o
+            WHERE o.id = ob.order_id 
+            AND (o.state='INIT' OR o.state='CONFIRM' OR o.state='SHIPPING'))`,
             function (error, results, fields) {
                 if (error)
                 {
                     reject(error)
                 }
-                resolve(results)
+
+                //console.log('Changed row', results.changedRows)
+                if (results.affectedRows === 0)
+                {
+                    resolve('failed')                    
+                }
+                else
+                {
+                    resolve('success')
+                }
             }
         );
     });
