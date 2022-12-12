@@ -22,6 +22,8 @@ BEGIN
 	    );
 END; 
 
+
+/* ------------------------------------------------------------------------------------------- */
 ALTER TABLE ORDERS MODIFY COLUMN address_id varchar(36);
 
 CREATE TRIGGER BEFORE_INSERT_ORDER BEFORE INSERT ON 
@@ -71,10 +73,10 @@ CREATE PROCEDURE CREATE_NEW_ORDER(IN LIST_BOOK_ID VARCHAR
 	    )
 	values (order_id, '', '', 0);
 	item_loop: LOOP 
-	-- # Get id
+	/* # Get id  */
 	SET id_index = id_index + 1;
 	SET book_id = SPLIT_STR(list_book_id, '|', id_index);
-	-- # Get quantity 
+	/* # Get quantity  */
 	SET quantity_index = quantity_index + 1;
 	SET
 	    _quantity_str = SPLIT_STR(
@@ -88,17 +90,15 @@ CREATE PROCEDURE CREATE_NEW_ORDER(IN LIST_BOOK_ID VARCHAR
 	SET
 	    MESSAGE_TEXT = 'Danh sách sản phẩm và số lượng không khớp!';
 	END IF;
-	IF quantity <= 0 THEN ROLLBACK;
+
+	SET _quantity = CONVERT(_quantity_str, SIGNED INTEGER);
+	IF _quantity <= 0 THEN ROLLBACK;
 	SIGNAL SQLSTATE '45000'
 	SET
 	    MESSAGE_TEXT = 'Số lượng sản phẩm cần mua phải lớn hơn 0!';
 	END IF;
 	SELECT
-	    quantity,
-	    price,
-	    discount into cur_quantity,
-	    _price,
-	    _discount
+	    quantity, price, discount into cur_quantity, _price, _discount
 	from books
 	where id = book_id;
 	IF cur_quantity < _quantity THEN ROLLBACK;
@@ -106,7 +106,7 @@ CREATE PROCEDURE CREATE_NEW_ORDER(IN LIST_BOOK_ID VARCHAR
 	SET
 	    MESSAGE_TEXT = 'Số lượng sản phẩm hiện không đủ!';
 	END IF;
-	SET _quantity = CONVERT(_quantity_str, SIGNED INTEGER);
+	
 	INSERT INTO
 	    orderbooks(
 	        order_id,
@@ -222,7 +222,7 @@ END;
 call
     create_new_order(
         '742c7d8f-750f-11ed-b055-b445062d2ff3|742dfda0-750f-11ed-b055-b445062d2ff3',
-        '3|14'
+        '3|14|3'
     );
 
 select * from orders;

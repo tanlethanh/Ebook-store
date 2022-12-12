@@ -1,4 +1,10 @@
 <!-- object: book, type -->
+<script>
+    var showCaseTitle = document.querySelector('.product-featured .showcase-title')
+    var showCasePriceBox = document.querySelector('.product-featured .price-box .price')
+    var showCaseOldPrice = document.querySelector('.product-featured .price-box del')
+    var showCaseBanner = document.querySelector('.product-featured .showcase-img')
+</script>
 
 <% if (book.name.length > 40) { %>
 <% bookName = book.name.substr(0, 40) + "..." %>

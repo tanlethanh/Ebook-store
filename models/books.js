@@ -1,3 +1,4 @@
+const e = require('express')
 const database = require('./connection')
 
 exports.getAllCategories = () => {
@@ -8,7 +9,7 @@ exports.getAllCategories = () => {
             INNER JOIN specificcategories as sc ON c.id = sc.category_id
             LEFT JOIN books as b ON b.specific_category_id = sc.id
             GROUP BY root_category, spec_category`,
-            function(error, results, fields) {
+            function (error, results, fields) {
                 if (error) reject(error)
                 cate_dict = {}
                 results.forEach(ele => {
@@ -33,7 +34,7 @@ exports.getAllCategories = () => {
 
 exports.getAllBooks = () => {
     return new Promise((resolve, reject) => {
-        database.query('SELECT * FROM BOOKS', function(error, results, fields) {
+        database.query('SELECT * FROM BOOKS', function (error, results, fields) {
             if (error) {
                 reject(error)
             }
@@ -45,7 +46,7 @@ exports.getAllBooks = () => {
 
 exports.getBooksBySpecCategoryId = (id) => {
     return new Promise((resolve, reject) => {
-        database.query(`SELECT * FROM BOOKS WHERE specific_category_id='${id}'`, function(error, results, fields) {
+        database.query(`SELECT * FROM BOOKS WHERE specific_category_id='${id}'`, function (error, results, fields) {
             if (error) {
                 reject(error)
             }
@@ -56,7 +57,7 @@ exports.getBooksBySpecCategoryId = (id) => {
 
 exports.getSpecCategoryNameById = (id) => {
     return new Promise((resolve, reject) => {
-        database.query(`SELECT * FROM SpecificCategories WHERE id='${id}'`, function(error, results, fields) {
+        database.query(`SELECT * FROM SpecificCategories WHERE id='${id}'`, function (error, results, fields) {
             if (error) {
                 reject(error)
             }
@@ -71,7 +72,7 @@ exports.getBooksByCategoryName = (name) => {
             SELECT * FROM 
             Books as b, Categories as c 
             WHERE b.category_id = c.id and c.name='${name}'`,
-            function(error, results, fields) {
+            function (error, results, fields) {
                 if (error) {
                     reject(error)
                 }
@@ -85,7 +86,7 @@ exports.addNewCartItem = (book_id, cart_id, quantity) => {
     return new Promise((resolve, reject) => {
         database.query(`INSERT INTO CartItems (book_id, cart_id, quantity)
             VALUES ('${book_id}', '${cart_id}', ${quantity})`,
-            function(error, results, fields) {
+            function (error, results, fields) {
                 if (error) {
                     reject(error)
                 }
@@ -105,7 +106,27 @@ exports.getCartItemsByCartId = (cart_id) => {
         FROM cartitems AS ci
         LEFT JOIN books as b ON ci.book_id = b.id
         WHERE ci.cart_id = '${cart_id}' and ci.state = 'NOW'`,
-            function(error, results, fields) {
+            function (error, results, fields) {
+                if (error) {
+                    reject(error)
+                }
+                resolve(results)
+            })
+    })
+}
+
+exports.updateBook = (id, name, price, discount, quantity, img) => {
+
+    // specific_category_id,
+    // category_id,
+    return new Promise((resolve, reject) => {
+        database.query(`UPDATE BOOKS SET
+            name='${name}',
+            price=${price},
+            discount=${discount},
+            quantity=${quantity},
+            main_image_url='${img}' WHERE id='${id}'`,
+            function (error, results, fields) {
                 if (error) {
                     reject(error)
                 }
@@ -118,11 +139,71 @@ exports.deleteCartItemByCartIdAndBookId = (cart_id, book_id) => {
     return new Promise((resolve, reject) => {
         database.query(`delete from cartitems 
         WHERE cart_id = '${cart_id}' and book_id = '${book_id}'`,
-            function(error, results, fields) {
+            function (error, results, fields) {
                 if (error) {
                     reject(error)
                 }
                 resolve(results)
             })
     })
+
+}
+
+exports.getBookById = (id) => {
+    return new Promise((resolve, reject) => {
+        database.query(`
+        SELECT * FROM Books as b
+        JOIN (SELECT name as scname, id FROM SpecificCategories) AS sc ON 
+	        b.specific_category_id=sc.id and b.id='${id}'`,
+            function (error, results, fields) {
+                if (error) {
+                    reject(error)
+                }
+                resolve(results)
+            }
+        );
+    });
+}
+
+exports.insertBook = (name, price, discount, quantity, img, sc) => {
+    return new Promise((resolve, reject) => {
+        database.query(`
+        INSERT INTO Books (name, price, discount, quantity, main_image_url, specific_category_id)
+        VALUES ('${name}', ${price}, ${discount}, ${quantity}, '${img}',
+            (SELECT id FROM SpecificCategories WHERE name='${sc}')
+        )`,
+            function (error, results, fields) {
+                if (error) {
+                    reject(error)
+                }
+                resolve(results)
+            }
+        );
+    });
+}
+
+exports.deleteBookById = (id) => {
+    return new Promise((resolve, reject) => {
+        database.query(`
+        DELETE FROM Books WHERE id='${id}'
+        AND id NOT IN 
+            (SELECT ob.book_id 
+            FROM OrderBooks AS ob, Orders AS o
+            WHERE o.id = ob.order_id 
+            AND (o.state='INIT' OR o.state='CONFIRM' OR o.state='SHIPPING'))`,
+            function (error, results, fields) {
+                if (error) {
+                    reject(error)
+                }
+
+                //console.log('Changed row', results.changedRows)
+                if (results.affectedRows === 0) {
+                    resolve('failed')
+                }
+                else {
+                    resolve('success')
+                }
+            }
+        );
+    });
 }
