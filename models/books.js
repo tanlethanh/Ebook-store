@@ -94,3 +94,35 @@ exports.addNewCartItem = (book_id, cart_id, quantity) => {
 
     })
 }
+
+exports.getCartItemsByCartId = (cart_id) => {
+    return new Promise((resolve, reject) => {
+        database.query(`SELECT b.name as bookName, b.id as bookId, 
+        b.quantity as curQuantity, ci.quantity as quantity, b.price as price, 
+        b.discount as discount,
+        caculate_total_price(b.discount, b.price) as totalPrice, 
+        b.main_image_url as imageUrl
+        FROM cartitems AS ci
+        LEFT JOIN books as b ON ci.book_id = b.id
+        WHERE ci.cart_id = '${cart_id}' and ci.state = 'NOW'`,
+            function(error, results, fields) {
+                if (error) {
+                    reject(error)
+                }
+                resolve(results)
+            })
+    })
+}
+
+exports.deleteCartItemByCartIdAndBookId = (cart_id, book_id) => {
+    return new Promise((resolve, reject) => {
+        database.query(`delete from cartitems 
+        WHERE cart_id = '${cart_id}' and book_id = '${book_id}'`,
+            function(error, results, fields) {
+                if (error) {
+                    reject(error)
+                }
+                resolve(results)
+            })
+    })
+}

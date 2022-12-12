@@ -7,9 +7,7 @@ values ('VĂN HỌC'),
        ('TÂM LÝ - KĨ NĂNG SỐNG'),
        ('NUÔI DẠY CON'),
        ('SÁCH THIẾU NHI'),
-       ('TIỂU SỬ - HỒI KÝ'),
        ('GIÁO KHOA - THAM KHẢO'),
-       ('SÁCH HỌC NGOẠI NGỮ');
 
 insert into specificcategories (name, category_id)
 values ('Tiểu Thuyết', (select id from categories where categories.name = 'VĂN HỌC')),
@@ -43,21 +41,10 @@ values ('Manga - Comic', (select id from categories where categories.name = 'SÁ
        ('Sách Tranh Kỹ Năng Sống Cho Trẻ', (select id from categories where categories.name = 'SÁCH THIẾU NHI')),
        ('Vừa Học - Vừa Học Vừa Chơi Với Trẻ', (select id from categories where categories.name = 'SÁCH THIẾU NHI'));
 
-insert into specificcategories (name, category_id)
-values ('Câu Chuyện Cuộc Đời', (select id from categories where categories.name = 'TIỂU SỬ - HỒI KÝ')),
-       ('Chính Trị', (select id from categories where categories.name = 'TIỂU SỬ - HỒI KÝ')),
-       ('Kinh Tế', (select id from categories where categories.name = 'TIỂU SỬ - HỒI KÝ')),
-       ('Nghệ Thuật - Giải Trí', (select id from categories where categories.name = 'TIỂU SỬ - HỒI KÝ'));
 
 insert into specificcategories (name, category_id)
 values ('Sách Giáo Khoa', (select id from categories where categories.name = 'GIÁO KHOA - THAM KHẢO')),
        ('Sách Tham Khảo', (select id from categories where categories.name = 'GIÁO KHOA - THAM KHẢO')),
        ('Luyện thi ĐH, CĐ', (select id from categories where categories.name = 'GIÁO KHOA - THAM KHẢO')),
        ('Mẫu Giáo', (select id from categories where categories.name = 'GIÁO KHOA - THAM KHẢO'));
-
-insert into specificcategories (name, category_id)
-values ('Tiếng Anh', (select id from categories where categories.name = 'SÁCH HỌC NGOẠI NGỮ')),
-       ('Tiếng Nhật', (select id from categories where categories.name = 'SÁCH HỌC NGOẠI NGỮ')),
-       ('Tiếng Hoa', (select id from categories where categories.name = 'SÁCH HỌC NGOẠI NGỮ')),
-       ('Tiếng Hàn', (select id from categories where categories.name = 'SÁCH HỌC NGOẠI NGỮ'));
 
