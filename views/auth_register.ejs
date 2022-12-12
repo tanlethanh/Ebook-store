@@ -65,10 +65,8 @@
               </a>
             </div>
             <!-- /Logo -->
-            <h4 class=" mb-2">Đăng ký người dùng tại BK Books</h4>
-            <p class="mb-4">Khách hàng có tài khoản sẽ nhận được nhiều trải nghiệm </p>
 
-            <form id="formAuthentication" class="mb-3" action="/register" method="POST">
+            <form id="formAuthentication" class="mb-3" action="/auth/register" method="POST">
               <div class="mb-3">
                 <label for="username" class="form-label">Tài khoản</label>
                 <input type="text" class="form-control" id="username" name="username" placeholder="Nhập tên đăng nhập"
@@ -95,9 +93,9 @@
                 <label for="gender" class="form-label">Giới tính</label>
                 <input type="text" class="form-control" id="gender" name="gender" list="gender-list" />
                 <datalist id="gender-list">
-                  <option value="F"></option>
-                  <option value="M"></option>
-                  <option value="A"></option>
+                  <option value="F">Nữ</option>
+                  <option value="M">Nam</option>
+                  <option value="A">Khác</option>
                 </datalist>
               </div>
               <div class="mb-3 form-password-toggle">

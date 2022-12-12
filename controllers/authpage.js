@@ -1,6 +1,6 @@
 const {
     registerUser
-} = require('../models/user')
+} = require('../models/users')
 
 exports.registerNewUser = async (req, res) => {
     const username = String(req.body.username)
@@ -10,8 +10,19 @@ exports.registerNewUser = async (req, res) => {
     const phone_number = String(req.body.phone_number)
     const birthday = String(req.body.birthday)
     const gender = String(req.body.gender)
-    result = await registerUser(username, password, name, email, phone_number, birthday, gender)
-    console.log(result)
+    try {
+        result = await registerUser(username, password, name, email, phone_number, birthday, gender)
+        res.json({
+            'type': 'success',
+            'message': 'Add to cart successfully!'
+        })
+    }
+    catch (error) {
+        res.status(400).json({
+            'type': 'warning',
+            'message': error.sqlMessage
+        })
+    }
 }
 
 exports.renderRegisterPage = async (req, res) => {

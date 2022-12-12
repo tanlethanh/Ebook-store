@@ -4,5 +4,5 @@ const { renderRegisterPage, registerNewUser } = require('../controllers/authpage
 router = express.Router()
 
 module.exports = router
-    .post('/register', registerNewUser)
-    .get('/register', renderRegisterPage)
+    .post('/register/', registerNewUser)
+    .get('/register/', renderRegisterPage)

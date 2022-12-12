@@ -36,7 +36,7 @@ let menu, animate;
     elem.onmouseenter = function () {
       // Set timeout to be a timer which will invoke callback after 300ms (not for small screen)
       if (!Helpers.isSmallScreen()) {
-        timeout = setTimeout(callback, 300);
+        timeout = setTimeout(callback, 0);
       } else {
         timeout = setTimeout(callback, 0);
       }

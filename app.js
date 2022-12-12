@@ -2,9 +2,10 @@ const express = require('express')
 const app = express()
 const homeRoute = require('./routes/home')
 const apiRoute = require('./routes/api')
-const authRoute = require('./routes/register')
+const authRoute = require('./routes/auth')
 const database = require('./models/connection')
 const bodyParser = require('body-parser')
+const dashboard = require('./routes/dashboard')
 
 require('dotenv').config()
 app.set('view engine', 'ejs');
@@ -14,15 +15,15 @@ app.use(bodyParser.json())
 
 database.connect()
 
-const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/', homeRoute)
 
-app.use('/api',  apiRoute)
+app.use('/api', apiRoute)
 
+app.use('/dashboard', dashboard)
 
-app.use('/', authRoute)
+app.use('/auth', authRoute)
 
 const PORT = 3000 || process.env.SERVER_PORT
 app.listen(PORT, (error) => {
