@@ -39,3 +39,4 @@ exports.renderCart = async(req, res) => {
     res.render('cart', { books: books, categories: categories })
 
 }
+
