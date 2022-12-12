@@ -181,8 +181,98 @@ VALUES (
 
 -- test create order -- syntax = list_book_id, list_book_quantity
 
+----STEP  1 ------Create order create 3 order with same product for behind steps
+
+-- normal quantity - create 3 order with same product
+
 call
     create_new_order(
-        'aaaaaca3-7a31-11ed-b916-18dbf24df9d9|25fb7120-7a31-11ed-b916-18dbf24df9d9|aaaaaa',
+        '25eb2a55-7a31-11ed-b916-18dbf24df9d9|25eb7781-7a31-11ed-b916-18dbf24df9d9',
+        '45|45'
+    );
+
+call
+    create_new_order(
+        '25eb2a55-7a31-11ed-b916-18dbf24df9d9|25eb7781-7a31-11ed-b916-18dbf24df9d9',
+        '45|45'
+    );
+
+call
+    create_new_order(
+        '25eb2a55-7a31-11ed-b916-18dbf24df9d9|25eb7781-7a31-11ed-b916-18dbf24df9d9',
+        '45|45'
+    );
+
+-- diffent number objects - 3 product - 2 quantity
+
+call
+    create_new_order(
+        '25eae45f-7a31-11ed-b916-18dbf24df9d9|25fb7120-7a31-11ed-b916-18dbf24df9d9|25fb7120-7a31-11ed-b916-18dbf24df9d9',
         '10|10'
     );
+
+-- negative quantity (quantity <0)
+
+call
+    create_new_order(
+        '25eae45f-7a31-11ed-b916-18dbf24df9d9|25fb7120-7a31-11ed-b916-18dbf24df9d9',
+        '-1|10'
+    );
+
+-- exceed quantity - same product
+
+call
+    create_new_order(
+        '25eae45f-7a31-11ed-b916-18dbf24df9d9|25fb7120-7a31-11ed-b916-18dbf24df9d9',
+        '100|10'
+    );
+
+----- STEP 2
+
+--simple confirm and cancle - confirm 1 order - cancle 1 order
+
+call
+    CONFIRM_ORDER(
+        '56f8d9ad-7a52-11ed-b916-18dbf24df9d9',
+        'Viet Nam',
+        'Ho Chi Minh',
+        'Thu Duc',
+        'Linh Trung',
+        '12/122'
+    );
+
+update orders
+set state = 'CANCEL'
+where
+    id = '5855b6d4-7a52-11ed-b916-18dbf24df9d9';
+
+-- confirm an already cancle order - same id with order right UP ON
+
+call
+    CONFIRM_ORDER(
+        '3e489179-7a50-11ed-b916-18dbf24df9d9',
+        'Viet Nam',
+        'Ho Chi Minh',
+        'Thu Duc',
+        'Linh Trung',
+        '12/122'
+    );
+
+-- Not enough stock when confirm (although have enough stock when make order)
+
+call
+    CONFIRM_ORDER(
+        '3f0333b6-7a50-11ed-b916-18dbf24df9d9',
+        'Viet Nam',
+        'Ho Chi Minh',
+        'Thu Duc',
+        'Linh Trung',
+        '12/122'
+    );
+
+--STEP 2 cancel order - return quantity
+
+update orders
+set state = 'CANCEL'
+where
+    id = '56f8d9ad-7a52-11ed-b916-18dbf24df9d9';
