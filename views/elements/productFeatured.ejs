@@ -6,7 +6,7 @@
 
   <h2 class="title">Deal of the day</h2>
 
-  <div class="showcase-wrapper has-scrollbar">
+  <div class="showcase-wrapper has-scrollbar d-none">
 
     <div class="showcase-container">
 
@@ -107,58 +107,84 @@
             color: white;
           }
 
+          .product-featured .btn:hover {
+            opacity: 0.9;
+          }
+
           .product-featured .form-group {
             padding: 4px;
             border-radius: 4px;
             margin-top: 2px;
             margin-bottom: 4px;
           }
+          .product-featured .form-group label {
+            display: inline-block;
+            margin: 4px 0;
+          }
+
+          .product-featured .form-control {
+            padding: 4px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            color: #333;
+            font-size: 14px;
+          }
 
           .product-featured .d-none {
             display: none;
           }
+
+          .product-featured .book-crud-wrapper {
+            display: inline-block;
+            position: relative;
+            left: 50%;
+            margin-top: 20px;
+            transform: translateX(-50%);
+          }
         </style>
-        <button class="btn" onclick="handleUpdateBookClick()">
-          Sửa
-        </button>
-        <button class="btn" onclick="handleDelBookClick()">
-          Xoá
-        </button>
-        <button class="btn" onclick="handleShowAddTable()">
-          Thêm
-        </button>
-        <form class="update-book-form d-none">
-          <div class="form-group my-2">
-            <label>Tên sách</label>
-            <input class="name-ipt form-control" type="text" placeholder="Cây cam ngọt của tôi">
-          </div>
-          <div class="form-group">
-            <label>Giá bán</label>
-            <input class="price-ipt form-control" type="text" placeholder="80000 đ">
-          </div>
-          <div class="form-group">
-            <label>Phần trăm giảm</label>
-            <input class="discount-ipt form-control" type="text" placeholder="0.2">
-          </div>
-          <div class="form-group">
-            <label>Số lượng</label>
-            <input class="count-ipt form-control" type="text" placeholder="20">
-          </div>
-          <div class="form-group">
-            <label>Url ảnh</label>
-            <input class="img-ipt form-control" type="text" placeholder="https://example-img.com">
-          </div>
-          <div class="form-group">
-            <label>Thể loại</label>
-            <input class="category-ipt form-control" type="text" placeholder="Tiếu thuyết">
-          </div>
-          <button type="button" 
-            class="btn btn-save d-none"
-            onclick="handleSaveBookClick()">Lưu</button>
-          <button type="button" 
-            class="btn btn-add d-none"
-            onclick="handleAddBookClick()">Thêm Sách</button>
-        </form>
+        <div class="book-crud-wrapper">
+          <button class="btn" onclick="handleUpdateBookClick(true)">
+            Sửa
+          </button>
+          <button class="btn" onclick="handleDelBookClick()">
+            Xoá
+          </button>
+          <button class="btn" onclick="handleShowAddTable()">
+            Thêm
+          </button>
+          <form class="update-book-form d-none">
+            <div class="form-group my-2">
+              <label>Tên sách</label>
+              <input class="name-ipt form-control" type="text" placeholder="ex: Cây cam ngọt của tôi">
+            </div>
+            <div class="form-group">
+              <label>Giá bán</label>
+              <input class="price-ipt form-control" type="text" placeholder="ex: 80000 đ">
+            </div>
+            <div class="form-group">
+              <label>Phần trăm giảm</label>
+              <input class="discount-ipt form-control" type="text" placeholder="ex: 0.2">
+            </div>
+            <div class="form-group">
+              <label>Số lượng</label>
+              <input class="count-ipt form-control" type="text" placeholder="ex: 20">
+            </div>
+            <div class="form-group">
+              <label>Url ảnh</label>
+              <input class="img-ipt form-control" type="text" placeholder="ex: https://example-img.com">
+            </div>
+            <div class="form-group">
+              <label>Thể loại</label>
+              <input class="category-ipt form-control" type="text" placeholder="ex: Tiếu thuyết">
+            </div>
+            <button type="button" 
+              class="btn btn-save d-none"
+              onclick="handleSaveBookClick()">Lưu</button>
+            <button type="button" 
+              class="btn btn-add d-none"
+              onclick="handleAddBookClick()">Thêm Sách</button>
+          </form>
+        </div>
 
         <script>
           const nameIpt = document.querySelector('.update-book-form .name-ipt');
@@ -173,9 +199,10 @@
           const btnSave = document.querySelector('.update-book-form .btn-save');
 
 
-          const handleUpdateBookClick = async () =>
+          const handleUpdateBookClick = async (showTable) =>
           {
             const id = localStorage.getItem('selected-book-id');
+            console.log(id)
             fetch(`http://localhost:3000/api/book/read`, {
               method: 'POST',
               headers: {
@@ -193,7 +220,10 @@
                 countIpt.value = data[0].quantity
                 imgIpt.value = data[0].main_image_url
                 categoryIpt.value = data[0].scname
-                updateBookForm.classList.toggle('d-none');
+                //console.log(data)
+                if (showTable) updateBookForm.classList.remove('d-none');
+                else updateBookForm.classList.add('d-none');
+
                 btnSave.classList.remove('d-none')
                 btnAdd.classList.add('d-none')
               })
@@ -215,7 +245,10 @@
                 quantity: countIpt.value,
                 img: imgIpt.value
               })
-            }).then(res => res.json()).then(data => alert(data.message));
+            }).then(res => res.json()).then(data => {
+              window.location.reload();
+              alert(data.message)
+            });
           }
 
           const handleDelBookClick = () =>
@@ -233,7 +266,7 @@
           }
 
           const handleShowAddTable = () => {
-            updateBookForm.classList.toggle('d-none');
+            updateBookForm.classList.remove('d-none');
             btnSave.classList.add('d-none')
             btnAdd.classList.remove('d-none')
 
@@ -259,7 +292,10 @@
                 img: imgIpt.value,
                 sc: categoryIpt.value
               })
-            }).then(res => res.json()).then(data => alert(data.message));
+            }).then(res => res.json()).then(data => {
+              alert(data.message)
+              window.location.reload();
+            });
           }
         </script>
       </div>

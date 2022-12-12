@@ -34,6 +34,11 @@
                                     showCaseBanner.src = `<%= book.main_image_url %>`;
 
                                     localStorage.setItem('selected-book-id', `<%= book.id %>`);
+                                    document.querySelector('.product-featured .showcase-wrapper')
+                                        .classList.remove('d-none');
+
+                                    // function from productFeatured.ejs
+                                    handleUpdateBookClick(false);
                                 }">
                                     <ion-icon name="eye-outline" role="img" class="md hydrated"
                                         aria-label="eye outline"></ion-icon>

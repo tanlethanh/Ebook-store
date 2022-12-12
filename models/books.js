@@ -128,7 +128,7 @@ exports.getBookById = (id) => {
         database.query(`
         SELECT * FROM Books as b
         JOIN (SELECT name as scname, id FROM SpecificCategories) AS sc ON 
-	        b.specific_category_id=sc.id`,
+	        b.specific_category_id=sc.id and b.id='${id}'`,
             function (error, results, fields) {
                 if (error)
                 {
