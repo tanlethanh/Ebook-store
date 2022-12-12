@@ -24,7 +24,7 @@
                     <ion-icon name="person-outline"></ion-icon>
                 </button>
 
-                <button class="action-btn">
+                <button class="action-btn" onclick="redirectoCartPage()">
                     <ion-icon name="bag-handle-outline"></ion-icon>
                     <span class="count">0</span>
                 </button>
@@ -42,13 +42,15 @@
             <ul class="desktop-menu-category-list">
 
                 <li class="menu-category">
-                    <a href="#" class="menu-title">Trang chủ</a>
+                    <a href="/" class="menu-title">Trang chủ</a>
                 </li>
 
                 <% for( let i=0; i < categories.length; i++ ) { %>
                     <li class="menu-category">
-                        <a href="/home/<%=categories[i].name%>" class="menu-title"><%= categories[i].name %></a>
-    
+                        <a href="/home/<%=categories[i].name%>" class="menu-title">
+                            <%= categories[i].name %>
+                        </a>
+
                         <ul class="dropdown-list">
                             <% for( let j=0; j < categories[i].specificCategories.length; j++ ) { %>
                                 <li class="dropdown-item">
@@ -56,8 +58,8 @@
                                         <%= categories[i].specificCategories[j].name %>
                                     </a>
                                 </li>
-                            <% } %>
-                            <!-- <li class="dropdown-item">
+                                <% } %>
+                                    <!-- <li class="dropdown-item">
                                 <a href="/home/<%=categories[i].name%>">
                                     Xem tất cả
                                 </a>
@@ -65,8 +67,8 @@
                         </ul>
 
                     </li>
-                <% } %>
-                <!-- <li class="menu-category">
+                    <% } %>
+                        <!-- <li class="menu-category">
                     <a href="#" class="menu-title">Văn học</a>
 
                     <ul class="dropdown-list">
@@ -444,3 +446,9 @@
     </nav>
 
 </header>
+
+<script>
+    function redirectoCartPage() {
+        window.location.replace('/cart/9b0d2f5c-7924-11ed-83a1-b445062d2ff3')
+    }
+</script>

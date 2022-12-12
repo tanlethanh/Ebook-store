@@ -49,9 +49,13 @@ SELECT caculate_total_price(0.4, 123123);
 
 
 /* Get cart by id */
-SELECT b.name as bookName, b.quantity as curQuantity, 
+SELECT b.name as bookName, b.id as bookId, b.quantity as curQuantity, 
 ci.quantity as quantity, b.price as price, b.discount as discount,
 caculate_total_price(b.discount, b.price) as totalPrice, b.main_image_url as imageUrl
 FROM cartitems AS ci
 LEFT JOIN books as b ON ci.book_id = b.id
 WHERE ci.cart_id = '9b0d2f5c-7924-11ed-83a1-b445062d2ff3' and ci.state = 'NOW';
+
+select * from cartitems;
+
+delete from cartitems WHERE cart_id = '' and book_id = '';
