@@ -1,3 +1,4 @@
+-- Active: 1670753632697@@127.0.0.1@3306@ebook_store
 use ebook_store;
 
 
@@ -7,7 +8,7 @@ values ('VĂN HỌC'),
        ('TÂM LÝ - KĨ NĂNG SỐNG'),
        ('NUÔI DẠY CON'),
        ('SÁCH THIẾU NHI'),
-       ('GIÁO KHOA - THAM KHẢO'),
+       ('GIÁO KHOA - THAM KHẢO');
 
 insert into specificcategories (name, category_id)
 values ('Tiểu Thuyết', (select id from categories where categories.name = 'VĂN HỌC')),

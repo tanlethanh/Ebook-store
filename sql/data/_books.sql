@@ -1,8 +1,7 @@
--- Active: 1669863277815@@127.0.0.1@3306@ebook_store
-
+-- Active: 1670753632697@@127.0.0.1@3306@ebook_store
 use ebook_store;
 
-drop procedure insert_book_with_main_image;
+-- drop procedure insert_book_with_main_image;
 
 CREATE PROCEDURE INSERT_BOOK_WITH_MAIN_IMAGE(IN _NAME 
 VARCHAR(255), IN _PRICE INT, IN _DISCOUNT FLOAT, IN 

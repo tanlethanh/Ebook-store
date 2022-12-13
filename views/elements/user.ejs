@@ -1,0 +1,44 @@
+<tr>
+  <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>
+      <%= index %>
+    </strong></td>
+  <td>
+    <%=user.username%>
+  </td>
+  <% if (user.role==="ADMIN" ) { %>
+    <td><span class="badge bg-label-primary me-1">Quản trị hệ thống</span></td>
+    <% } %>
+
+      <% if (user.role==="CUSTOMER" ) { %>
+        <td><span class="badge bg-label-success me-1">Khách hàng</span></td>
+        <% } %>
+
+          <% if (user.role==="MANAGER" ) { %>
+            <td><span class="badge bg-label-info me-1">Quản lý</span></td>
+            <% } %>
+              <td>
+                <%=user.name%>
+              </td>
+              <td>
+                <%=user.email%>
+              </td>
+              <td>
+                <%=user.phone_number%>
+              </td>
+              <td>
+                <div class="dropdown">
+                  <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                    <i class="bx bx-dots-vertical-rounded"></i>
+                  </button>
+                  <div class="dropdown-menu">
+                    <% if (user.role!=="ADMIN" ) { %>
+                      <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-edit-alt me-1"></i> Sửa</a>
+                      <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Xóa</a>
+                      <% } else { %>
+                        <p class="dropdown-item" href="javascript:void(0);"><i class="bx bx-edit-alt me-1"></i> Không
+                          thể chỉnh sửa</p>
+                        <% } %>
+                  </div>
+                </div>
+              </td>
+</tr>
