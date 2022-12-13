@@ -1,5 +1,13 @@
 import NotificationQueue from "./notify.js";
 
+
+const listDeleteButton = document.querySelectorAll('.buttons .delete-btn')
+const listAddToCartButton = document.querySelectorAll('.add-to-cart-btn')
+const listCheckbox = document.querySelectorAll(".bagInput")
+const listItems = document.querySelectorAll(".item")
+const chooseAllCheckbox = document.querySelector("#headerCheckBox")
+const paybutton = document.querySelector("#paybutton")
+
 // Example POST method implementation:
 async function postData(url = '', data = {}) {
     // Default options are marked with *
@@ -84,14 +92,77 @@ async function deleteCartItem(e) {
     }
 }
 
-const listDeleteButton = document.querySelectorAll('.buttons .delete-btn')
+
+function updateTotalPrice() {
+    let totalPrice = 0
+    for (let i = 0; i < listItems.length; i++) {
+        const ele = listItems[i]
+        const cb = ele.querySelector(".bagInput")
+        if (cb.checked == true) {
+            const price = Number(ele.querySelector(".total-price").innerText.replace('đ', ''))
+            totalPrice += price
+        }
+    }
+
+    const totalPriceEle = document.querySelector("#total_price")
+    totalPriceEle.innerText = String(totalPrice)
+}
+
+
+async function makeOrder() {
+    let count = 0
+    let listChosenItems = []
+    for (let i = 0; i < listCheckbox.length; i++) {
+        if (listCheckbox[i].checked) {
+            count++
+            listChosenItems.push({
+                id: listCheckbox[i].closest(".item").id,
+                quantity: Number(listCheckbox[i].closest(".item").querySelector(".quantity input").getAttribute("value"))
+            })
+        }
+    }
+
+    if (count == 0) {
+
+    }
+    else {
+
+        const res = await postData("/api/order", {
+            listItems: listChosenItems
+        })
+
+        console.log(res)
+
+        if (res.orderId) {
+            window.location.replace(`/order/${res.orderId}`)
+        }
+    }
+
+}
+
+
 
 for (let i = 0; i < listDeleteButton.length; i++) {
     listDeleteButton[i].addEventListener('click', deleteCartItem)
 }
 
-const listAddToCartButton = document.querySelectorAll('.add-to-cart-btn')
-
 for (let i = 0; i < listAddToCartButton.length; i++) {
     listAddToCartButton[i].addEventListener('click', addToCart)
 }
+
+for (let i = 0; i < listCheckbox.length; i++) {
+    listCheckbox[i].addEventListener('click', updateTotalPrice)
+}
+
+// choose all checked
+chooseAllCheckbox.addEventListener('click', () => {
+    for (let i = 0; i < listCheckbox.length; i++) {
+        listCheckbox[i].checked = chooseAllCheckbox.checked
+    }
+    updateTotalPrice()
+})
+
+paybutton.addEventListener('click', makeOrder)
+
+
+

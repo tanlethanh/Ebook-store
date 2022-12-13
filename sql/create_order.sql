@@ -43,7 +43,7 @@ END;
 drop PROCEDURE create_new_order;
 
 CREATE PROCEDURE CREATE_NEW_ORDER(IN LIST_BOOK_ID VARCHAR
-(255), IN LIST_QUANTITY VARCHAR(255)) BEGIN 
+(255), IN LIST_QUANTITY VARCHAR(255), IN _USER_ID VARCHAR(36), OUT ORDER_ID_OUT VARCHAR(36)) BEGIN 
 	DECLARE id_index INT Default 0;
 	DECLARE quantity_index INT Default 0;
 	DECLARE book_id VARCHAR(255);
@@ -62,9 +62,10 @@ CREATE PROCEDURE CREATE_NEW_ORDER(IN LIST_BOOK_ID VARCHAR
 	        id,
 	        receiver_name,
 	        phone_number,
-	        total_price
+	        total_price,
+			user_id
 	    )
-	values (order_id, '', '', 0);
+	values (order_id, '', '', 0, _USER_ID);
 	item_loop: LOOP 
 	/* # Get id  */
 	SET id_index = id_index + 1;
@@ -124,7 +125,7 @@ CREATE PROCEDURE CREATE_NEW_ORDER(IN LIST_BOOK_ID VARCHAR
 	        _quantity
 	    );
 	END LOOP item_loop;
-	COMMIT;
+	SET ORDER_ID_OUT = order_id;
 END;
 
 DROP TRIGGER IF EXISTS update_order;
@@ -202,8 +203,25 @@ END;
 call
     create_new_order(
         '742c7d8f-750f-11ed-b055-b445062d2ff3|742dfda0-750f-11ed-b055-b445062d2ff3',
-        '3|14|3'
+        '3|14', 'f58d2683-7921-11ed-83a1-b445062d2ff3', @ORDER_ID
     );
+
+select * from users;
+
+select @ORDER_ID;
+
+/* DROP FUNCTION IF EXISTS create_new_order; */
+/* CREATE FUNCTION create_new_order (LIST_BOOK_ID VARCHAR(255), LIST_QUANTITY VARCHAR(255)) 
+RETURNS varchar(36)
+DETERMINISTIC
+BEGIN
+	DECLARE ORDER_ID VARCHAR(36) DEFAULT '';
+	call create_new_order(LIST_BOOK_ID, LIST_QUANTITY, ORDER_ID);
+	return ORDER_ID;
+END; */
+
+SELECT create_new_order('742c7d8f-750f-11ed-b055-b445062d2ff3|742dfda0-750f-11ed-b055-b445062d2ff3', '3|14');
+
 
 select * from orders;
 

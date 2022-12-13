@@ -1,0 +1,335 @@
+<!-- cartItems, categories, order -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shopping Cart</title>
+  <link rel="shortcut icon" href="/images/logo/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-2.2.4.js" charset="utf-8"></script>
+  <meta name="robots" content="noindex,follow" />
+
+
+  <!-------------------------------- Template -------------------------------->
+
+  <link rel="icon" type="image/x-icon" href="/templates/assets/img/favicon/favicon.ico" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Icons. Uncomment required icon fonts -->
+  <link rel="stylesheet" href="/templates/assets/vendor/fonts/boxicons.css" />
+
+  <!-- Core CSS -->
+  <link rel="stylesheet" href="/templates/assets/vendor/css/core.css" class="template-customizer-core-css" />
+  <link rel="stylesheet" href="/templates/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+  <link rel="stylesheet" href="/templates/assets/css/demo.css" />
+
+  <!-- Vendors CSS -->
+  <link rel="stylesheet" href="/templates/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+
+  <!-- Page CSS -->
+
+  <!-- Helpers -->
+  <script src="/templates/assets/vendor/js/helpers.js"></script>
+
+  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+  <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+  <script src="/templates/assets/js/config.js"></script>
+
+  <!-------------------------------- Template -------------------------------->
+
+  <!--
+    - custom css link
+  -->
+  <link rel="stylesheet" href="/css/style-prefix.css">
+  <link rel="stylesheet" href="/modules/simple-notify/dist/simple-notify.min.css" />
+
+  <!--
+    - google font link
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+
+  <style>
+    * {
+      --confirm-container: 100px;
+      margin: 0;
+      padding: 0;
+    }
+
+    main {
+      /* height: 100vh; */
+      width: 100%;
+      background-color: #e8f5ee;
+      margin-bottom: var(--confirm-container);
+    }
+
+    .confirm-container {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: var(--confirm-container);
+      border: 1px solid var(--cultured);
+      background-color: #fff;
+      z-index: 99999;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .confirm-container .card {
+      border: none;
+      box-shadow: none;
+      display: flex;
+      /* align-items: right; */
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .confirm-container .card button {
+      padding: 20px 40px;
+      background-color: var(--main-green);
+      color: #fff;
+      /* width: 100px; */
+      border-radius: 5px;
+    }
+
+    .information {
+      /* padding: 50px 400px; */
+      padding-top: 10px;
+      display: flex;
+      flex-direction: column;
+      /* gap: 10px; */
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card {
+      width: 800px;
+    }
+
+    .order-item {
+      width: 100%;
+      height: 120px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .order-item img {
+      height: 100px;
+      width: 100px;
+      object-fit: cover;
+    }
+
+    .order-item-name {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      height: 100%;
+      flex-grow: 1;
+      /* flex-shrink: 0; */
+      width: 40%;
+    }
+
+    .order-item-quantity {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+
+      height: 100%;
+      flex-grow: 1;
+    }
+
+    .order-item-price {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100%;
+      flex-grow: 1;
+    }
+  </style>
+
+</head>
+
+
+<body>
+  <%- include('./elements/header') %>
+  <main>
+    <div class="information">
+      <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h2 class="mb-0">
+            Xác nhận đơn hàng
+            </h1>
+        </div>
+      </div>
+      <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h3 class="mb-0"> Thông tin người nhận </h3>
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="mb-3">
+              <label class="form-label" for="basic-icon-default-fullname">Tên người nhận</label>
+              <div class="input-group input-group-merge">
+                <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-user"></i></span>
+                <input type="text" class="form-control" id="basic-icon-default-fullname" placeholder="<%= order.name %>" aria-label="<%= order.name %>" aria-describedby="basic-icon-default-fullname2">
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="basic-icon-default-email">Địa chỉ email</label>
+              <div class="input-group input-group-merge">
+                <span class="input-group-text"><i class="bx bx-envelope"></i></span>
+                <input type="text" id="basic-icon-default-email" class="form-control" placeholder="<%= order.email %>" aria-label="<%= order.email %>" aria-describedby="basic-icon-default-email2">
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="basic-icon-default-phone">Số điện thoại</label>
+              <div class="input-group input-group-merge">
+                <span id="basic-icon-default-phone2" class="input-group-text"><i class="bx bx-phone"></i></span>
+                <input type="text" id="basic-icon-default-phone" class="form-control phone-mask" placeholder="<%= order.phone_number %>1" aria-label="<%= order.phone_number %>1" aria-describedby="basic-icon-default-phone2">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <h3 class="card-header"> Địa chỉ nhận hàng </h3>
+        <div class="card-body">
+          <div class="mb-3">
+            <label for="defaultSelect" class="form-label">Tỉnh/Thành phố</label>
+            <select id="defaultSelect" class="form-select">
+              <option>None</option>
+              <option value="1">Tp Hồ Chí Minh</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="defaultSelect" class="form-label">Quận/Huyện</label>
+            <select id="defaultSelect" class="form-select">
+              <option>None</option>
+              <option value="1">Thủ Đức</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="defaultSelect" class="form-label">Phường/Xã</label>
+            <select id="defaultSelect" class="form-select">
+              <option>None</option>
+              <option value="1">Linh Trung</option>
+              <option value="2">Linh Đông</option>
+              <option value="3">Linh Xuân</option>
+            </select>
+          </div>
+
+          <div class="mb-3 row">
+            <label for="html5-text-input" class="col-md-2 col-form-label">Số nhà</label>
+            <div class="col-md-10">
+              <input class="form-control" type="text" value="" id="html5-text-input" />
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="card mb-4">
+        <h3 class="card-header"> Danh sách sản phẩm </h3>
+        <div class="card-body">
+          <% for( let i = 0; i < order.listItems.length; i++ ) { %>
+          <div class="order-item">
+            <img src="<%= order.listItems[i].book_image %>" alt="">
+            <div class="order-item-name">
+              <p> <%= order.listItems[i].book_name %> </p>
+            </div>
+            <div class="order-item-quantity">
+              <p> Số lượng: <span class="price"><%= order.listItems[i].quantity %></span></p>
+            </div>
+            <div class="order-item-price">
+              <p class="price"> Giá: <span class="price"><%= (order.listItems[i].discount_price).toFixed(0) %> đ</span> </p>
+            </div>
+
+
+          </div>
+          <% } %>
+
+
+        </div>
+
+      </div>
+    </div>
+
+    </div>
+    </div>
+
+  </main>
+
+  <div class="confirm-container">
+    <div class="card">
+      <div class="total">
+        <h3> Tổng cộng: <%= order.total_price %> đ </h3>
+      </div>
+      <button> Xác nhận mua hàng </button>
+
+    </div>
+  </div>
+
+  <!-- <%- include('./elements/footer') %> -->
+
+  <!-------------------------------- Template -------------------------------->
+  <!-- Core JS -->
+  <!-- build:js assets/vendor/js/core.js -->
+  <script src="/templates/assets/vendor/libs/jquery/jquery.js"></script>
+  <script src="/templates/assets/vendor/libs/popper/popper.js"></script>
+  <script src="/templates/assets/vendor/js/bootstrap.js"></script>
+  <script src="/templates/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+  <script src="/templates/assets/vendor/js/menu.js"></script>
+  <!-- endbuild -->
+
+  <!-- Vendors JS -->
+
+  <!-- Main JS -->
+  <script src="/templates/assets/js/main.js"></script>
+
+  <!-- Page JS -->
+
+  <script src="/templates/assets/js/form-basic-inputs.js"></script>
+
+  <!-- Place this tag in your head or just before your close body tag. -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  <!-------------------------------- Template -------------------------------->
+
+
+  <!-- package -->
+  <script src="/modules/simple-notify/dist/simple-notify.min.js"></script>
+  <script type="module" src="/js/cart.js"></script>
+  <script src="/js/script.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>

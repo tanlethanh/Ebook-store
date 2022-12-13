@@ -8,6 +8,7 @@ const {
     insertBook
 } = require('../models/books')
 
+const { createNewOrder, getOrderById } = require('../models/orders')
 
 router = express.Router()
 
@@ -124,6 +125,47 @@ router
                 'message': error.sqlMessage
             })
         }
+    })
+    .post('/order', async (req, res) => {
+        console.log(req.body)
+
+        if (!req.body.listItems || req.body.listItems.constructor !== Array) {
+            return res.status(400).json({
+                'type': 'error',
+                message: "Invalid fields, require listItems [ {id: \"\", quantity: \"\"} ]"
+            })
+        }
+        else {
+            try {
+                const listId = []
+                const listQuantity = []
+                req.body.listItems.forEach(item => {
+                    listId.push(item.id)
+                    listQuantity.push(item.quantity)
+                });
+
+                result = await createNewOrder(listId, listQuantity, defaultUserId)
+
+                return res.json({
+                    orderId: result
+                })
+            }
+            catch (error) {
+                res.status(400).json({
+                    'type': 'error',
+                    'message': error.sqlMessage
+                })
+            }
+        }
+    })
+    .get('/order/:orderId', async (req, res) => {
+        console.log(req.body)
+        const orderId = req.params.orderId
+
+        const order = await getOrderById(orderId);
+
+        res.json({ order })
+
     })
 
 module.exports = router

@@ -6,8 +6,9 @@ const {
     getBooksByCategoryName,
     getCartItemsByCartId
 } = require('../models/books')
+const { getOrderById } = require('../models/orders')
 
-exports.renderHomepage = async(req, res) => {
+exports.renderHomepage = async (req, res) => {
     const books = await getAllBooks()
 
 
@@ -15,7 +16,7 @@ exports.renderHomepage = async(req, res) => {
     res.render('home', { books: books, categories: categories })
 }
 
-exports.renderHomeWithFilter = async(req, res) => {
+exports.renderHomeWithFilter = async (req, res) => {
     const categories = await getAllCategories()
     const category = req.params.cname;
 
@@ -24,7 +25,11 @@ exports.renderHomeWithFilter = async(req, res) => {
         Promise.resolve(getSpecCategoryNameById(req.params.scid))
             .then(sc => {
                 console.log(sc)
-                res.render('home', { books: books, categories: categories, title: `Tất cả sách/${category}/${sc[0].name}` });
+                res.render('home', {
+                    books: books,
+                    categories: categories,
+                    title: `Tất cả sách/${category}/${sc[0].name}`
+                });
             })
     } else {
         const books = await getBooksByCategoryName(req.params.cname)
@@ -33,12 +38,20 @@ exports.renderHomeWithFilter = async(req, res) => {
 }
 
 
-exports.renderCart = async(req, res) => {
+exports.renderCart = async (req, res) => {
     console.log('Render cart page')
     const categories = await getAllCategories()
     const cartItems = await getCartItemsByCartId(String(req.params.cartId))
     console.log("done render cart")
     res.render('cart', { categories: categories, cartItems: cartItems })
 
+}
+
+exports.renderOrder = async (req, res) => {
+    console.log('Render order page')
+    const categories = await getAllCategories()
+    const order = await getOrderById(String(req.params.orderId))
+    console.log("done render order")
+    res.render('order', { categories: categories, order: order })
 }
 
