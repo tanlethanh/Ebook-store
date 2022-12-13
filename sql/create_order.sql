@@ -60,18 +60,14 @@ CREATE PROCEDURE CREATE_NEW_ORDER(IN LIST_BOOK_ID VARCHAR
 	--eror handler
 	DECLARE msg TEXT;
 	DECLARE result TEXT;
+	
 	set id_index = 0;
 	set quantity_index = 0;
+
 	START TRANSACTION;
 	SET order_id = uuid();
 	INSERT INTO
-	    orders (
-	        id,
-	        receiver_name,
-	        phone_number,
-	        total_price,
-			user_id
-	    )
+	    orders (id, receiver_name, phone_number, total_price, user_id)
 	values (order_id, '', '', 0, _USER_ID);
 	item_loop: LOOP 
 	/* # Get id  */
@@ -79,50 +75,34 @@ CREATE PROCEDURE CREATE_NEW_ORDER(IN LIST_BOOK_ID VARCHAR
 	SET book_id = SPLIT_STR(list_book_id, '|', id_index);
 	/* # Get quantity  */
 	SET quantity_index = quantity_index + 1;
-	SET
-	    _quantity_str = SPLIT_STR(
-	        list_quantity,
-	        '|',
-	        quantity_index
-	    );
+	SET _quantity_str = SPLIT_STR( list_quantity, '|', quantity_index );
+
+
 	IF ( book_id = '' and _quantity_str = '' ) THEN LEAVE item_loop;
 	ELSEIF ( book_id = '' or _quantity_str = '' ) THEN ROLLBACK;
-	SIGNAL SQLSTATE '45000'
-	SET
-	    MESSAGE_TEXT = 'Danh sách sản phẩm và số lượng không khớp!';
+		SIGNAL SQLSTATE '45000'
+		SET
+			MESSAGE_TEXT = 'Danh sách sản phẩm và số lượng không khớp!';
 	END IF;
 
 	SET _quantity = CONVERT(_quantity_str, SIGNED INTEGER);
-	IF _quantity <= 0 THEN ROLLBACK;
-	SIGNAL SQLSTATE '45000'
-	SET
-	    MESSAGE_TEXT = 'Số lượng sản phẩm cần mua phải lớn hơn 0!';
+		IF _quantity <= 0 THEN ROLLBACK;
+		SIGNAL SQLSTATE '45000'
+		SET
+			MESSAGE_TEXT = 'Số lượng sản phẩm cần mua phải lớn hơn 0!';
 	END IF;
-	SELECT
-	    quantity, price, discount into cur_quantity, _price, _discount
-	from books
-	where id = book_id;
-	IF cur_quantity < _quantity THEN ROLLBACK;
-	SIGNAL SQLSTATE '45000'
-	SET
-	    MESSAGE_TEXT = 'Số lượng sản phẩm hiện không đủ!';
+
+	SELECT quantity, price, discount into cur_quantity, _price, _discount
+	from books where id = book_id;
+		IF cur_quantity < _quantity THEN ROLLBACK;
+		SIGNAL SQLSTATE '45000'
+		SET
+			MESSAGE_TEXT = 'Số lượng sản phẩm hiện không đủ!';
 	END IF;
 	
-	INSERT INTO
-	    orderbooks(
-	        order_id,
-	        book_id,
-	        price,
-	        discount,
-	        quantity
-	    )
-	VALUES (
-	        order_id,
-	        book_id,
-	        _price,
-	        _discount,
-	        _quantity
-	    );
+	INSERT INTO orderbooks(order_id, book_id, price, discount, quantity)
+	VALUES (order_id, book_id, _price, _discount, _quantity);
+
 	END LOOP item_loop;
 	SET ORDER_ID_OUT = order_id;
 END;
